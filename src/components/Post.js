@@ -1,42 +1,70 @@
 import axios from "axios";
 import React from "react";
 import { useState, useEffect } from "react";
-// import AddCommentForm from "./AddCommentForm";
+import AddCommentForm from "./Add-comment-form";
+import AddPostForm from "./Add-post-form";
+import Button from "react-bootstrap/Button";
+import Card from "react-bootstrap/Card";
 
-function Post (props) {
-    const [post, setPost] = useState([]);
-    // const [showComments, setShowComments] = useState(false);
-    // const [commentCount, setCommentCount] = useState(0);
-    
-    // const toggleComments = () => {
-    //     setShowComments(showComments => !showComments);
-    // };
-
-    // useEffect(() => {
-    //     setCommentCount(comments.length);
-    // }, [comments]);
-    
-
-    // const addComment = (comment) => {
-    //     setComments(comments => [...comments, comment]);
-    // };
-
-
-    const getData = async () => {
-        const response = await axios.get(`https://whiteboard-401-backend.herokuapp.com/post`);
-        setPost(response.data);
-    };
-
-    useEffect(() => {
-        getData();
-    }, []);
-
-    return (
-        <div>
+function Post(props) {
+  const [post, setPost] = useState([]);
  
-        </div>
+  const getData = async () => {
+    const allData = await axios.get(
+      `https://whiteboard-401-backend.herokuapp.com/post`
     );
+    setPost(allData.data);
+  };
 
+  const deletePost = async (id) => {
+      await axios.delete(`https://whiteboard-401-backend.herokuapp.com/post/${id}`);
+      getData();
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+  return (
+    <div>
+      <AddPostForm getData= {getData}/>
+      <AddCommentForm getData={getData} />
+      {post &&
+        post.map((value, idx) => {
+          return (
+
+            <div key={idx}>
+              <Card className="card" style={{ width: "50rem" }}>
+              {/* <Card > */}
+                <Card.Body>
+                  <Card.Title>{value.title}</Card.Title>
+                  <Card.Text>{value.description}</Card.Text>
+                  <Card.Text>{value.email}</Card.Text>
+                  <Button variant="primary"onClick={() => deletePost(value.id)}>Delete </Button>
+                </Card.Body>
+              </Card>
+              <AddCommentForm post_id={value.id} getData={getData} />
+
+                {value.Comments &&
+                    value.Comments.map((comment, idx) => {
+                    return (
+                        <div
+                        style={{ justifyContent: "center", margin: "1rem" }}
+                        key={idx}
+                        >
+                        <div className="card-body">
+                            <p className="card-text">{comment.name}</p>
+                            <p className="card-text">{comment.comment}</p>
+                        </div>
+                        </div>
+                    );
+                    })}
+            </div>
+          );
+        })}
+    </div>
+    );
 }
+
 
 export default Post;
