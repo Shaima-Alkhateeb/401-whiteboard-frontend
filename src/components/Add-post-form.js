@@ -1,64 +1,97 @@
 import React from "react";
 import axios from "axios";
-import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button';
-
+// import { Stack } from "react-bootstrap";
+import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
+import post from "./Post";
 
 function AddPostForm(props) {
-    const [post, setPost] = React.useState({});
-    
-    // const handleChange = (e) => {
-    //     setPost({ ...post, [e.target.name]: e.target.value });
-    // };
-    
-    // const handleSubmit = async (e) => {
-    //     e.preventDefault();
-    //     await axios.post("https://whiteboard-401-backend.herokuapp.com/post", post);
-    //     props.getPost();
-    // };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const post = {
+      // id: e.target.id.value,
+      title: e.target.title.value,
+      description: e.target.description.value,
+      // status: e.target.status.value,
+      email: e.target.email.value,
+    };
 
-    function handleSubmmit(e) {
-        e.preventDefault();
-      }
-    
-    return (
-        <div className="person-perant">
+    await axios.post("https://whiteboard-401-backend.herokuapp.com/post", post);
+    // .then(() => {
+    // console.log("post", post);
+    props.getData();
+    // });
+  };
 
-        <Form onSubmit={handleSubmmit} className="person-child">
-  
-          <Form.Group>
-            <Form.Label>Name</Form.Label>
-            <Form.Control type="text" placeholder="Enter Name" id="Name" data-testid='input-name' />
+  return (
+    <>
+    <br></br>
+    <h2>Question For Discussion</h2>
+    <h2>If you could spend a day with anyone, whom would you choose? </h2>
+    <div className="person-perant">
+
+      <Form onSubmit={handleSubmit}>
+
+        <Form.Group className="name-of-label" id="title">
+          <Form.Label>Name :</Form.Label>
+          <Form.Control type="text" placeholder="Enter Name" id="title" />
+        </Form.Group>
+        <br></br>
+
+        <Form.Group className="name-of-label" id="description">
+          <Form.Label>Comment :</Form.Label>
+          <Form.Control
+            as="textarea"
+            rows={3}
+            type="text"
+            placeholder="Enter Comment"
+            id="description"
+          />
+        </Form.Group>
+        <br></br>
+
+        {/* <Form.Group className="name-of-label" id="status">
+            <Form.Label>Status :</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Enter status"
+              id="status"
+              // name="status"
+            />
           </Form.Group>
-  
-          <Form.Group>
-            <Form.Label>email</Form.Label>
-            <Form.Control type="text" placeholder="Enter email" id="email" data-testid='input-age'/>
-          </Form.Group>
-          <br></br>
+          <br></br> */}
 
-          <Form.Group>
+        <Form.Group className="name-of-label" id="email">
+          <Form.Label>Email :</Form.Label>
+          <Form.Control
+            type="text"
+            placeholder="Enter email"
+            id="email"
+            name="email"
+          />
+        </Form.Group>
+        <br></br>
+
+        {/* <Form.Group>
             <Form.Label>id</Form.Label>
             <Form.Control type="text" placeholder="Enter id" id="id" data-testid='input-age'/>
-          </Form.Group>
- 
-          <br></br>
-  
-          <Button variant="outline-dark" type="submit" data-testid="submit">
-            Submit
-          </Button>
-          <br></br>
+          </Form.Group> */}
 
-          <Form.Group>
-          <Form.Label>-------------------------------------------------------------------------</Form.Label> <br></br>
-          <Form.Label data-testid='Name'>Name: </Form.Label> <br></br>
-          <Form.Label data-testid='email'>email: </Form.Label> <br></br>
-          <Form.Label data-testid='id'>id: </Form.Label> <br></br>
-        </Form.Group>
-  
-        </Form>
-      </div>
-    );
-    }
+        <br></br>
+
+        <Button variant="outline-dark" type="submit">
+        send comment
+        </Button>
+        <br></br>
+
+          <p>
+            -------------------------------------------------------------------------
+          </p>
+
+      </Form>
+    </div>
+    </>
+  );
+}
 
 export default AddPostForm;
