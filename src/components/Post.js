@@ -59,6 +59,8 @@ function Post(props) {
                         </div>
                     );
                     })}
+
+                    
             </div>
           );
         })}
