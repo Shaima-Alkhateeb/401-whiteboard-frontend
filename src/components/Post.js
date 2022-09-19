@@ -6,6 +6,7 @@ import AddPostForm from "./Add-post-form";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 
+
 function Post(props) {
   const [post, setPost] = useState([]);
  
@@ -28,7 +29,7 @@ function Post(props) {
   return (
     <div>
       <AddPostForm getData= {getData}/>
-      <AddCommentForm getData={getData} />
+      {/* <AddCommentForm getData={getData} /> */}
       {post &&
         post.map((value, idx) => {
           return (
