@@ -16,7 +16,6 @@ export default function Signup() {
             password: e.target.password.value
         }
         
-
         await axios.post('https://whiteboard-401-backend.herokuapp.com/signup', data).then(res => {
             console.log(res);
             alert("Thank you for signing up!, please Sing in"); 
@@ -26,6 +25,7 @@ export default function Signup() {
   }
 
   return (
+    
     <div>
         <h1>Happy to have you here ^_^</h1><br></br><br></br>
         <h5>If you dont have an account pleas Sign up to see the post page</h5>
