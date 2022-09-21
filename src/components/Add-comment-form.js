@@ -24,7 +24,7 @@ function AddCommentForm(props) {
 
   return (
     <>
-    <div className="person-perant">
+    {/* <div className="person-perant">
       <Form onSubmit={handleSubmit}>
         <Form.Group className="name-of-label" id="Name">
           <Form.Label>Name :</Form.Label>
@@ -53,7 +53,7 @@ function AddCommentForm(props) {
           Add Comment
         </Button>
       </Form>
-    </div>
+    </div> */}
     </>
   );
 }
