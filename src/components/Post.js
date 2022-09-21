@@ -14,7 +14,7 @@ function Post(props) {
     const allData = await axios
     .get(`https://whiteboard-401-backend.herokuapp.com/post`)
     
-    setPost(allData.data);
+    setPost(allData.data.post);
   };
 
   const deletePost = async (id) => {

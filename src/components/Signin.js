@@ -1,10 +1,9 @@
 import axios from "axios";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import base64 from 'base-64';
 import { Link } from "react-router-dom";
 import { When } from 'react-if';
 import Post from './Post'
-import cookies from 'react-cookies';
 
 export default function Signin() {
 
@@ -25,26 +24,10 @@ export default function Signin() {
             }
         })
         .then(res => {
-            console.log(res.data);
-            cookies.save('token', res.data.token);
-
+            console.log(res.data)
             setSignedin(true)
           })
           .catch(err => console.log(err));
-      }
-
-
-      useEffect(() => {
-        const token = cookies.load('token');
-        // console.log(token);
-        if(token) {
-          setSignedin(true)
-        }
-      }, [])
-
-      const handelLogout = () => {
-        cookies.remove('token');
-        setSignedin(false);
       }
 
 
@@ -69,7 +52,6 @@ export default function Signin() {
     <When condition={Signedin}>
       <br></br>
       <h2>Hooray you are authorized </h2>
-      <button onClick={handelLogout}>logout</button>
       {/* <Link to="/post">Click here to view the post page</Link> */}
       <Post />
     </When>
