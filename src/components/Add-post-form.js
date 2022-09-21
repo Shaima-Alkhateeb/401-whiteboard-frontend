@@ -26,25 +26,25 @@ function AddPostForm(props) {
   return (
     <>
     <br></br>
-    <h2>Question For Discussion</h2>
-    <h2>If you could spend a day with anyone, whom would you choose? </h2>
+    {/* <h2>Question For Discussion</h2>
+    <h2>If you could spend a day with anyone, whom would you choose? </h2> */}
     <div className="person-perant">
 
       <Form onSubmit={handleSubmit}>
 
         <Form.Group className="name-of-label" id="title">
-          <Form.Label>Name :</Form.Label>
-          <Form.Control type="text" placeholder="Enter Name" id="title" />
+          <Form.Label>Title :</Form.Label>
+          <Form.Control type="text" placeholder="Enter title" id="title" />
         </Form.Group>
         <br></br>
 
         <Form.Group className="name-of-label" id="description">
-          <Form.Label>Comment :</Form.Label>
+          <Form.Label>Description :</Form.Label>
           <Form.Control
             as="textarea"
             rows={3}
             type="text"
-            placeholder="Enter Comment"
+            placeholder="Enter description"
             id="description"
           />
         </Form.Group>
@@ -80,7 +80,7 @@ function AddPostForm(props) {
         <br></br>
 
         <Button variant="outline-dark" type="submit">
-        send comment
+        send post
         </Button>
         <br></br>
 

@@ -11,10 +11,10 @@ function Post(props) {
   const [post, setPost] = useState([]);
  
   const getData = async () => {
-    const allData = await axios.get(
-      `https://whiteboard-401-backend.herokuapp.com/post`
-    );
-    setPost(allData.data);
+    const allData = await axios
+    .get(`https://whiteboard-401-backend.herokuapp.com/post`)
+    
+    setPost(allData.data.post);
   };
 
   const deletePost = async (id) => {
@@ -49,13 +49,10 @@ function Post(props) {
                 {value.Comments &&
                     value.Comments.map((comment, idx) => {
                     return (
-                        <div
-                        style={{ justifyContent: "center", margin: "1rem" }}
-                        key={idx}
-                        >
+                        <div key={idx}>
                         <div className="card-body">
-                            <p className="card-text">{comment.name}</p>
-                            <p className="card-text">{comment.comment}</p>
+                            <p className="card-text">name :{comment.name}</p>
+                            <p className="card-text">comment: {comment.comment}</p>
                         </div>
                         </div>
                     );

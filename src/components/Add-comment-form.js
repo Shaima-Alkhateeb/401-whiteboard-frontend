@@ -2,8 +2,12 @@ import React from "react";
 import axios from "axios";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
+import { useState } from "react";
 
 function AddCommentForm(props) {
+  const [comment, setComment] = useState(false);
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const comment = {
@@ -11,16 +15,16 @@ function AddCommentForm(props) {
       comment: e.target.comment.value,
       // id: e.target.id.value,
     };
-    await axios
-      .post(`https://whiteboard-401-backend.herokuapp.com/comment`, comment)
+    await axios.post('https://whiteboard-401-backend.herokuapp.com/comment', comment)
       // .then(() => {
         props.getData();
       // });
+      
   };
 
   return (
     <>
-    {/* <div className="person-perant">
+    <div className="person-perant">
       <Form onSubmit={handleSubmit}>
         <Form.Group className="name-of-label" id="Name">
           <Form.Label>Name :</Form.Label>
@@ -49,7 +53,7 @@ function AddCommentForm(props) {
           Add Comment
         </Button>
       </Form>
-    </div> */}
+    </div>
     </>
   );
 }
