@@ -5,10 +5,12 @@ import AddCommentForm from "./Add-comment-form";
 import AddPostForm from "./Add-post-form";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
+import cookies from 'react-cookies';
 
 
 function Post(props) {
   const [post, setPost] = useState([]);
+  const [role, setRole] = useState('');
  
   const getData = async () => {
     const allData = await axios
@@ -18,12 +20,26 @@ function Post(props) {
     console.log(allData.data);
   };
 
-  const deletePost = async (id) => {
-      await axios.delete(`https://whiteboard-401-backend.herokuapp.com/post/${id}`);
-      getData();
+  const updatePost = async (id, post) => {
+    await axios.put(`https://whiteboard-401-backend.herokuapp.com/post/${id}`, post);
+    getData();
   };
 
+  const deletePost = async (id) => {
+    const token = cookies.load('token');
+      await axios.delete(`https://whiteboard-401-backend.herokuapp.com/post/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }).then( res => {
+        getData(); 
+      }).catch(err => console.log(err));
+  };
+
+
+
   useEffect(() => {
+    setRole(cookies.load('role'));
     getData();
   }, []);
 
@@ -42,7 +58,13 @@ function Post(props) {
                   <Card.Title>{value.title}</Card.Title>
                   <Card.Text>{value.description}</Card.Text>
                   <Card.Text>{value.email}</Card.Text>
-                  <Button variant="primary"onClick={() => deletePost(value.id)}>Delete </Button>
+                  {role === 'admin' && 
+                  <>
+                  <Button onClick={() => deletePost(value._id)}>Delete</Button>
+                  <Button variant="primary" onClick={() => updatePost(value._id)}>Edit</Button>
+                  </>
+                  }
+
                 </Card.Body>
               </Card>
               <AddCommentForm post_id={value.id} getData={getData} />
