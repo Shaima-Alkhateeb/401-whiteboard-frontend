@@ -28,7 +28,7 @@ export default function Signup() {
   return (
     
     <div>
-        <h1>Happy to have you here ^_^</h1><br></br><br></br>
+        {/* <h1>Happy to have you here ^_^</h1><br></br><br></br> */}
         <h5>If you dont have an account pleas Sign up to see the post page</h5>
         <p>-----------------------------------------</p>
       <h2>Sign up</h2><br></br>
