@@ -26,7 +26,12 @@ export default function Signin() {
         })
         .then(res => {
             console.log(res.data);
+            cookies.remove();
             cookies.save('token', res.data.token);
+            cookies.save('user_id', res.data.user_id);
+            cookies.save('username', res.data.username);
+            cookies.save('role', res.data.role);
+            cookies.save('capabilities', JSON.parse(res.data.capabilities));
 
             setSignedin(true)
           })
