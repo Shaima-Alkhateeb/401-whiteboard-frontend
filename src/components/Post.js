@@ -15,6 +15,7 @@ function Post(props) {
     .get(`https://whiteboard-401-backend.herokuapp.com/post`)
     
     setPost(allData.data);
+    console.log(allData.data);
   };
 
   const deletePost = async (id) => {
