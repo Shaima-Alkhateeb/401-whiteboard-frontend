@@ -6,33 +6,49 @@ import AddPostForm from "./Add-post-form";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import cookies from 'react-cookies';
+import UpdatePost from "./UpdatePost";
 
 
 function Post(props) {
   const [post, setPost] = useState([]);
   const [role, setRole] = useState('');
  
-  const getData = async () => {
-    const allData = await axios
-    .get(`https://whiteboard-401-backend.herokuapp.com/post`)
+  const getPost = async () => {
+    const allPost = await axios
+    .get(`${process.env.HEROKU_URL}/post`, {
+      headers: {
+        Authorization: `Bearer ${cookies.load("token")}`,
+      }
+    })
     
-    setPost(allData.data);
-    console.log(allData.data);
+    setPost(allPost.data.post);
+    console.log(allPost.data);
   };
 
-  const updatePost = async (id, post) => {
-    await axios.put(`https://whiteboard-401-backend.herokuapp.com/post/${id}`, post);
-    getData();
-  };
+  // const updatePost = async (id, post) => {
+  //   await axios.put(`${process.env.HEROKU_URL}/post/${id}`, post);
+  //   getPost();
+  // };
 
   const deletePost = async (id) => {
     const token = cookies.load('token');
-      await axios.delete(`https://whiteboard-401-backend.herokuapp.com/post/${id}`, {
+      await axios.delete(`${process.env.HEROKU_URL}/post/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
       }).then( res => {
-        getData(); 
+        getPost(); 
+      }).catch(err => console.log(err));
+  };
+
+  const deleteComment = async (id) => {
+    const token = cookies.load('token');
+      await axios.delete(`${process.env.HEROKU_URL}/comment/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }).then( res => {
+        getPost();
       }).catch(err => console.log(err));
   };
 
@@ -40,12 +56,12 @@ function Post(props) {
 
   useEffect(() => {
     setRole(cookies.load('role'));
-    getData();
+    getPost();
   }, []);
 
   return (
     <div>
-      <AddPostForm getData= {getData}/>
+      <AddPostForm getPost= {getPost}/>
       {/* <AddCommentForm getData={getData} /> */}
       {post &&
         post.map((value, idx) => {
@@ -61,13 +77,14 @@ function Post(props) {
                   {role === 'admin' && 
                   <>
                   <Button onClick={() => deletePost(value._id)}>Delete</Button>
-                  <Button variant="primary" onClick={() => updatePost(value._id)}>Edit</Button>
+                  {/* <Button variant="primary" onClick={() => updatePost(value._id)}>Edit</Button> */}
+                  <UpdatePost post={value} getPost={getPost}/>
                   </>
                   }
 
                 </Card.Body>
               </Card>
-              <AddCommentForm post_id={value.id} getData={getData} />
+              <AddCommentForm post_id={value.id} getPost={getPost} />
 
                 {value.Comments &&
                     value.Comments.map((comment, idx) => {
@@ -76,6 +93,10 @@ function Post(props) {
                         <div className="card-body">
                             <p className="card-text">name :{comment.name}</p>
                             <p className="card-text">comment: {comment.comment}</p>
+
+                            {role === 'admin' &&
+                            <Button onClick={() => deleteComment(comment._id)}>Delete</Button>
+                            }
                         </div>
                         </div>
                     );
