@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import base64 from 'base-64';
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import { When } from 'react-if';
 import Post from './Post'
 import cookies from 'react-cookies';
@@ -19,7 +19,7 @@ export default function Signin() {
 
         const encodedData = base64.encode(`${data.email}:${data.password}`)
         console.log(`Basic ${encodedData}`)
-        axios.post('https://whiteboard-401-backend.herokuapp.com/signin', {}, {
+        axios.post('http://localhost:3004/signin', {}, {
             headers: {
                 Authorization: `Basic ${encodedData}`
             }
@@ -31,7 +31,7 @@ export default function Signin() {
             cookies.save('user_id', res.data.user_id);
             cookies.save('username', res.data.username);
             cookies.save('role', res.data.role);
-            cookies.save('capabilities', JSON.parse(res.data.capabilities));
+            // cookies.save('capabilities', JSON.parse(res.data.capabilities));
 
             setSignedin(true)
           })
@@ -73,7 +73,7 @@ export default function Signin() {
 
     <When condition={Signedin}>
       <br></br>
-      <h2>Hooray you are authorized </h2>
+      {/* <h2>Hooray you are authorized </h2> */}
       <button onClick={handelLogout}>logout</button>
       {/* <Link to="/post">Click here to view the post page</Link> */}
       <Post />

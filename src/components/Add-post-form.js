@@ -4,6 +4,7 @@ import axios from "axios";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import post from "./Post";
+import cookies from 'react-cookies';
 
 function AddPostForm(props) {
   const handleSubmit = async (e) => {
@@ -16,18 +17,18 @@ function AddPostForm(props) {
       email: e.target.email.value,
     };
 
-    await axios.post("https://whiteboard-401-backend.herokuapp.com/post", post);
-    // .then(() => {
+    await axios.post(`${process.env.HEROKU_URL}/post`, post, {
+      headers: {
+        Authorization: `Bearer ${cookies.load('token')}`
+      }
+    }).then(() => {
     // console.log("post", post);
-    props.getData();
-    // });
+      props.getPost();//getData
+    });
   };
 
   return (
     <>
-    <br></br>
-    {/* <h2>Question For Discussion</h2>
-    <h2>If you could spend a day with anyone, whom would you choose? </h2> */}
     <div className="person-perant">
 
       <Form onSubmit={handleSubmit}>
@@ -50,17 +51,6 @@ function AddPostForm(props) {
         </Form.Group>
         <br></br>
 
-        {/* <Form.Group className="name-of-label" id="status">
-            <Form.Label>Status :</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Enter status"
-              id="status"
-              // name="status"
-            />
-          </Form.Group>
-          <br></br> */}
-
         <Form.Group className="name-of-label" id="email">
           <Form.Label>Email :</Form.Label>
           <Form.Control
@@ -72,15 +62,10 @@ function AddPostForm(props) {
         </Form.Group>
         <br></br>
 
-        {/* <Form.Group>
-            <Form.Label>id</Form.Label>
-            <Form.Control type="text" placeholder="Enter id" id="id" data-testid='input-age'/>
-          </Form.Group> */}
-
         <br></br>
 
         <Button variant="outline-dark" type="submit">
-        send post
+        post it
         </Button>
         <br></br>
 
