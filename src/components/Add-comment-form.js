@@ -2,29 +2,35 @@ import React from "react";
 import axios from "axios";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import { useState } from "react";
+// import Card from 'react-bootstrap/Card';
+// import { ReactDOM } from "react";
+// import { useState } from "react";
+import cookies from 'react-cookies';
 
 function AddCommentForm(props) {
-  const [comment, setComment] = useState(false);
-
+  // const [name, setName] = useState("");
+  // const [comment, setComment] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const user_id = cookies.load('user_id');
     const comment = {
       name: e.target.name.value,
       comment: e.target.comment.value,
-      // id: e.target.id.value,
     };
-    await axios.post('https://whiteboard-401-backend.herokuapp.com/comment', comment)
-      // .then(() => {
-        props.getData();
-      // });
+
+    //https://whiteboard-401-backend.herokuapp.com/comment
+
+    await axios.post(`${process.env.REACT_APP_URL}/comment${props.post_id}/${user_id}`, comment)
+      .then(() => {
+        props.getPost(); //getData
+      });
       
   };
 
   return (
     <>
-    {/* <div className="person-perant">
+    <div className="person-perant">
       <Form onSubmit={handleSubmit}>
         <Form.Group className="name-of-label" id="Name">
           <Form.Label>Name :</Form.Label>
@@ -53,7 +59,7 @@ function AddCommentForm(props) {
           Add Comment
         </Button>
       </Form>
-    </div> */}
+    </div>
     </>
   );
 }

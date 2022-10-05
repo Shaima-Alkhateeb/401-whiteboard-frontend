@@ -10,25 +10,25 @@ export default function Signup() {
         if(e.target.password.value !== e.target.confirmPassword.value) {
             alert("Passwords do not match");
             return;
-        } else {
+        } 
         const data = {
             username: e.target.username.value,
             email: e.target.email.value,
-            password: e.target.password.value
+            password: e.target.password.value,
+            role: e.target.role.value
         }
         
-        await axios.post('https://whiteboard-401-backend.herokuapp.com/signup', data).then(res => {
+        await axios.post(`${process.env.REACT_APP_URL}/signup`, data).then(res => {
             console.log(res);
             alert("Thank you for signing up!, please Sing in"); 
 
         }).catch(e => alert("email or username already exists"));
-        }
+        
   }
 
   return (
     
     <div>
-        <h1>Happy to have you here ^_^</h1><br></br><br></br>
         <h5>If you dont have an account pleas Sign up to see the post page</h5>
         <p>-----------------------------------------</p>
       <h2>Sign up</h2><br></br>

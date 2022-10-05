@@ -1,34 +1,28 @@
-import axios from "axios";
-import React from "react";
-import { useState, useEffect } from "react";
+
+import React, { useContext, useEffect } from "react";
 import AddCommentForm from "./Add-comment-form";
 import AddPostForm from "./Add-post-form";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
+import UpdatePost from "./UpdatePost";
+import { PostContext } from "../Context/PostContext";
+import { authContext } from "../Context/AuthContext";
 
 
-function Post(props) {
-  const [post, setPost] = useState([]);
- 
-  const getData = async () => {
-    const allData = await axios
-    .get(`https://whiteboard-401-backend.herokuapp.com/post`)
-    
-    setPost(allData.data);
-  };
+function Post() {
 
-  const deletePost = async (id) => {
-      await axios.delete(`https://whiteboard-401-backend.herokuapp.com/post/${id}`);
-      getData();
-  };
+  const { post, deletePost, deleteComment, getPost } = useContext(PostContext);
+  const {role, user, capabilities} = useContext(authContext)
 
   useEffect(() => {
-    getData();
+    console.log(role);
+    console.log(capabilities);
+    getPost();
   }, []);
 
   return (
     <div>
-      <AddPostForm getData= {getData}/>
+      <AddPostForm getPost= {getPost}/>
       {/* <AddCommentForm getData={getData} /> */}
       {post &&
         post.map((value, idx) => {
@@ -36,15 +30,20 @@ function Post(props) {
 
             <div key={idx}>
               <Card className="card" style={{ width: "50rem" }}>
-              {/* <Card > */}
                 <Card.Body>
                   <Card.Title>{value.title}</Card.Title>
                   <Card.Text>{value.description}</Card.Text>
-                  <Card.Text>{value.email}</Card.Text>
-                  <Button variant="primary"onClick={() => deletePost(value.id)}>Delete </Button>
+                  
+                  {capabilities.includes('delete') && 
+                  <Button onClick={() => deletePost(value._id)}>Delete</Button>}
+
+                  {capabilities.includes('update') &&
+                  <UpdatePost post={value} getPost={getPost} />
+                  }
+
                 </Card.Body>
               </Card>
-              <AddCommentForm post_id={value.id} getData={getData} />
+              <AddCommentForm post_id={value.id} getPost={getPost} />
 
                 {value.Comments &&
                     value.Comments.map((comment, idx) => {
@@ -53,6 +52,10 @@ function Post(props) {
                         <div className="card-body">
                             <p className="card-text">name :{comment.name}</p>
                             <p className="card-text">comment: {comment.comment}</p>
+
+                            {role === 'admin' &&
+                            <Button onClick={() => deleteComment(comment.id)}>Delete</Button>
+                            }
                         </div>
                         </div>
                     );
