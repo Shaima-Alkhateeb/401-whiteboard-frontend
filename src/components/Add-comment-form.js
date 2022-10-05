@@ -11,8 +11,6 @@ function AddCommentForm(props) {
   // const [name, setName] = useState("");
   // const [comment, setComment] = useState(false);
 
-
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     const user_id = cookies.load('user_id');
@@ -23,11 +21,10 @@ function AddCommentForm(props) {
 
     //https://whiteboard-401-backend.herokuapp.com/comment
 
-    await axios.post(`${process.env.HEROKU_URL}/comment${props.post_id}/${user_id}`, comment).then( () => {
-      // .then(() => {
+    await axios.post(`${process.env.REACT_APP_URL}/comment${props.post_id}/${user_id}`, comment)
+      .then(() => {
         props.getPost(); //getData
-      // });
-    });
+      });
       
   };
 
