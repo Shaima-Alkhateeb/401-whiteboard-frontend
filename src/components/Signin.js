@@ -19,7 +19,7 @@ export default function Signin() {
 
         const encodedData = base64.encode(`${data.email}:${data.password}`)
         console.log(`Basic ${encodedData}`)
-        axios.post('http://localhost:3004/signin', {}, {
+        axios.post(`${process.env.REACT_APP_URL}/signin`, {}, {
             headers: {
                 Authorization: `Basic ${encodedData}`
             }

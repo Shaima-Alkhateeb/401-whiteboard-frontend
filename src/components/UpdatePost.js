@@ -15,7 +15,7 @@ const UpdatePost = (props) => {
             email: e.target.value,
         };
 
-        await axios.put(`${process.env.HEROKU_URL}/post/${id}`, updateThePost, {
+        await axios.put(`${process.env.REACT_APP_URL}/post/${id}`, updateThePost, {
             headers: {
                 Authorization: `Bearer ${cookies.load('token')}`
             }

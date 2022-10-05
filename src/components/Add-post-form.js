@@ -14,10 +14,10 @@ function AddPostForm(props) {
       title: e.target.title.value,
       description: e.target.description.value,
       // status: e.target.status.value,
-      email: e.target.email.value,
+      // email: e.target.email.value,
     };
 
-    await axios.post(`${process.env.HEROKU_URL}/post`, post, {
+    await axios.post(`${process.env.REACT_APP_URL}/post`, post, {
       headers: {
         Authorization: `Bearer ${cookies.load('token')}`
       }
@@ -34,7 +34,7 @@ function AddPostForm(props) {
       <Form onSubmit={handleSubmit}>
 
         <Form.Group className="name-of-label" id="title">
-          <Form.Label>Title :</Form.Label>
+          <Form.Label>Title for the Post:</Form.Label>
           <Form.Control type="text" placeholder="Enter title" id="title" />
         </Form.Group>
         <br></br>
@@ -51,7 +51,7 @@ function AddPostForm(props) {
         </Form.Group>
         <br></br>
 
-        <Form.Group className="name-of-label" id="email">
+        {/* <Form.Group className="name-of-label" id="email">
           <Form.Label>Email :</Form.Label>
           <Form.Control
             type="text"
@@ -59,7 +59,7 @@ function AddPostForm(props) {
             id="email"
             name="email"
           />
-        </Form.Group>
+        </Form.Group> */}
         <br></br>
 
         <br></br>

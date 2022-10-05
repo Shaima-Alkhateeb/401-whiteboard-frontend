@@ -14,15 +14,32 @@ function Post(props) {
   const [role, setRole] = useState('');
  
   const getPost = async () => {
-    const allPost = await axios
-    .get(`${process.env.HEROKU_URL}/post`, {
-      headers: {
-        Authorization: `Bearer ${cookies.load("token")}`,
-      }
-    })
+    try {
+
+      axios
+          .get(`${process.env.REACT_APP_URL}/post`, {
+              headers: {
+                  Authorization: `Bearer ${cookies.load('token')}`
+              }
+          })
+          .then((response) => {
+              const allPosts = response.data;
+              console.log(response.data)
+              setPost(allPosts);
+              // setShowPostComponent(true);
+          }
+          ).catch((error) => console.error(`Error: ${error}`));
+
+  } catch (e) { console.log(e) }
+    // const allPost = await axios
+    // .get(`${process.env.REACT_APP_URL}/post`, {
+    //   headers: {
+    //     Authorization: `Bearer ${cookies.load("token")}`,
+    //   }
+    // })
     
-    setPost(allPost.data.post);
-    console.log(allPost.data);
+    // setPost(allPost.data.post);
+    // console.log(allPost.data);
   };
 
   // const updatePost = async (id, post) => {
@@ -32,30 +49,32 @@ function Post(props) {
 
   const deletePost = async (id) => {
     const token = cookies.load('token');
-      await axios.delete(`${process.env.HEROKU_URL}/post/${id}`, {
+      await axios.delete(`${process.env.REACT_APP_URL}/post/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
-      }).then( res => {
+      })
+      // .then( res => {
         getPost(); 
-      }).catch(err => console.log(err));
+      // }).catch(err => console.log(err));
   };
 
   const deleteComment = async (id) => {
     const token = cookies.load('token');
-      await axios.delete(`${process.env.HEROKU_URL}/comment/${id}`, {
+      await axios.delete(`${process.env.REACT_APP_URL}/comment/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
-      }).then( res => {
+      })
+      // .then( res => {
         getPost();
-      }).catch(err => console.log(err));
+      // }).catch(err => console.log(err));
   };
 
 
 
   useEffect(() => {
-    setRole(cookies.load('role'));
+    // setRole(cookies.load('role'));
     getPost();
   }, []);
 
@@ -73,10 +92,11 @@ function Post(props) {
                 <Card.Body>
                   <Card.Title>{value.title}</Card.Title>
                   <Card.Text>{value.description}</Card.Text>
-                  <Card.Text>{value.email}</Card.Text>
+                  {/* <Card.Text>{value.email}</Card.Text> */}
                   {role === 'admin' && 
                   <>
-                  <Button onClick={() => deletePost(value._id)}>Delete</Button>
+                  <UpdatePost post={value} getPost={getPost} />
+                  <Button onClick={() => deletePost(value.id)}>Delete</Button>
                   {/* <Button variant="primary" onClick={() => updatePost(value._id)}>Edit</Button> */}
                   <UpdatePost post={value} getPost={getPost}/>
                   </>
@@ -95,7 +115,7 @@ function Post(props) {
                             <p className="card-text">comment: {comment.comment}</p>
 
                             {role === 'admin' &&
-                            <Button onClick={() => deleteComment(comment._id)}>Delete</Button>
+                            <Button onClick={() => deleteComment(comment.id)}>Delete</Button>
                             }
                         </div>
                         </div>
