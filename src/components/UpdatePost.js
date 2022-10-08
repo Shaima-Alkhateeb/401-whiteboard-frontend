@@ -1,38 +1,20 @@
-import React from "react";
-import { useState } from "react";
-import axios from "axios";
-import cookies from 'react-cookies';
 
-const UpdatePost = (props) => {
-    const [showUpdate, setShowUpdate] = useState(false);
+import React, { useContext } from "react";
 
-    const handelUpdatePost = async (e, id) => {
-        e.preventDefault();
+import { PostContext } from '../Context/PostContext'
 
-        const updateThePost = {
-            title: e.target.value,
-            description: e.target.value,
-            email: e.target.value,
-        };
+const UpdatePost = () => {
 
-        await axios.put(`${process.env.REACT_APP_URL}/post/${id}`, updateThePost, {
-            headers: {
-                Authorization: `Bearer ${cookies.load('token')}`
-            }
-        })
-        // .then(() => {
-        //     setShowUpdate(false);
-        // }
-        // );
-        props.getPost();
-    }
+    const { setShowUpdate, showUpdate, handelUpdatePost, post } = useContext(PostContext);
+
+
 
     return (
         <>
             <div>
                 <button onClick={() => setShowUpdate(!showUpdate)}>Update</button>
                 {showUpdate &&
-                    <form onSubmit={(e) => handelUpdatePost(e, props.id)}>
+                    <form onSubmit={(e) => handelUpdatePost(e, post.id)}>
                         <input type="text" name="title" placeholder="title" />
                         <input type="text" name="description" placeholder="description" />
                         <input type="text" name="email" placeholder="email" />

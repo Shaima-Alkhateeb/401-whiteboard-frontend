@@ -1,31 +1,15 @@
-import React from "react";
-import axios from "axios";
-// import { Stack } from "react-bootstrap";
+
+import React, { useContext } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import post from "./Post";
-import cookies from 'react-cookies';
+// import post from "./Post";
 
-function AddPostForm(props) {
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const post = {
-      // id: e.target.id.value,
-      title: e.target.title.value,
-      description: e.target.description.value,
-      // status: e.target.status.value,
-      // email: e.target.email.value,
-    };
+import { PostContext } from '../Context/PostContext'
 
-    await axios.post(`${process.env.REACT_APP_URL}/post`, post, {
-      headers: {
-        Authorization: `Bearer ${cookies.load('token')}`
-      }
-    }).then(() => {
-    // console.log("post", post);
-      props.getPost();//getData
-    });
-  };
+function AddPostForm() {
+
+  const { handleSubmit } = useContext(PostContext);
+
 
   return (
     <>

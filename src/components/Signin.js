@@ -8,7 +8,7 @@ import  { authContext} from "../Context/AuthContext";
 
 export default function Signin() {
 
-  const { isAuth, handelLogout, handleSignin, checkToken} = useContext(authContext);
+  const { isAuth, handelLogout, handleSignin, checkToken, user, theuser} = useContext(authContext);
 
   useEffect(() => {
     // const token = cookies.load('token');
@@ -37,6 +37,7 @@ export default function Signin() {
     <When condition={isAuth}>
       <br></br>
       {/* <h2>Hooray you are authorized </h2> */}
+      {<h2>Hello{user.username} </h2>}
       <button onClick={handelLogout}>logout</button>
       {/* <Link to="/post">Click here to view the post page</Link> */}
       <Post />

@@ -7,6 +7,7 @@ export const PostContext = createContext();
 
 const PostContextProvider = (props) => {
     const [post, setPost] = useState([]);
+    const [showUpdate, setShowUpdate] = useState(false);
 
  
   const getPost = async () => {
@@ -61,8 +62,54 @@ const PostContextProvider = (props) => {
       // }).catch(err => console.log(err));
   };
 
+  ///////////////////////
 
-  const value = {post, getPost, deletePost, deleteComment};
+  const handelUpdatePost = async (e, id) => {
+    e.preventDefault();
+
+    const updateThePost = {
+        title: e.target.value,
+        description: e.target.value,
+        email: e.target.value,
+    };
+
+    await axios.put(`${process.env.REACT_APP_URL}/post/${id}`, updateThePost, {
+        headers: {
+            Authorization: `Bearer ${cookies.load('token')}`
+        }
+    })
+    // .then(() => {
+    //     setShowUpdate(false);
+    // }
+    // );
+    props.getPost();
+}
+
+  ///////////////////////
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const post = {
+      id: e.target.id.value,
+      title: e.target.title.value,
+      description: e.target.description.value,
+      // status: e.target.status.value,
+      // email: e.target.email.value,
+      email: cookies.load('email'),
+    };
+
+    await axios.post(`${process.env.REACT_APP_URL}/post`, post, {
+      headers: {
+        Authorization: `Bearer ${cookies.load('token')}`
+      }
+    }).then(() => {
+    // console.log("post", post);
+      getPost();
+    });
+  };
+
+
+  const value = {post, getPost, deletePost, deleteComment, handleSubmit, handelUpdatePost, showUpdate, setShowUpdate};
 
 
   return (
