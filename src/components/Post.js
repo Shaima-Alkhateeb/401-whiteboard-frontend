@@ -4,6 +4,7 @@ import AddCommentForm from "./Add-comment-form";
 import AddPostForm from "./Add-post-form";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
+
 import UpdatePost from "./UpdatePost";
 import { PostContext } from "../Context/PostContext";
 import { authContext } from "../Context/AuthContext";
@@ -13,6 +14,10 @@ function Post() {
 
   const { post, deletePost, deleteComment, getPost } = useContext(PostContext);
   const {role, user, capabilities} = useContext(authContext)
+
+
+
+
 
   useEffect(() => {
     console.log(role);
@@ -39,6 +44,7 @@ function Post() {
 
                   {capabilities.includes('update') &&
                   <UpdatePost post={value} getPost={getPost} />
+
                   }
 
                 </Card.Body>

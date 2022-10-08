@@ -6,11 +6,12 @@ import Post from "./components/Post";
 import Signup from "./components/Signup";
 import Signin from "./components/Signin";
 import { Routes, Route } from "react-router-dom";
+import cookies from 'react-cookies';
 
 // import { authContext } from "./Context/AuthContext";
 
 function App() {
-  
+
   return (
     <div className="App">
       <Routes>
