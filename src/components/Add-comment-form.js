@@ -3,19 +3,16 @@ import axios from "axios";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 // import Card from 'react-bootstrap/Card';
-// import { ReactDOM } from "react";
-// import { useState } from "react";
+
 import cookies from 'react-cookies';
 
 function AddCommentForm(props) {
-  // const [name, setName] = useState("");
-  // const [comment, setComment] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const user_id = cookies.load('user_id');
     const comment = {
-      name: e.target.name.value,
+      // name: e.target.name.value,
       comment: e.target.comment.value,
     };
 
@@ -32,7 +29,7 @@ function AddCommentForm(props) {
     <>
     <div className="person-perant">
       <Form onSubmit={handleSubmit}>
-        <Form.Group className="name-of-label" id="Name">
+        {/* <Form.Group className="name-of-label" id="Name">
           <Form.Label>Name :</Form.Label>
           <Form.Control
             type="text"
@@ -42,10 +39,10 @@ function AddCommentForm(props) {
   
           />
         </Form.Group>
-        <br></br>
+        <br></br> */}
 
         <Form.Group className="mb-3 name-of-label"  id="comment">
-          <Form.Label>Write Comment Here</Form.Label>
+          <Form.Label>Write Your Comment </Form.Label>
           <Form.Control
             as="textarea"
             rows={3}

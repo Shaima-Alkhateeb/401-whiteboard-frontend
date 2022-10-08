@@ -5,12 +5,18 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter } from "react-router-dom";
+import AuthContextProvider from './Context/AuthContext';
+import PostContextProvider from './Context/PostContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
   <BrowserRouter>
-    <App />
+  <AuthContextProvider>
+    <PostContextProvider>
+      <App />
+    </PostContextProvider>
+  </AuthContextProvider>
   </BrowserRouter>
 );
 

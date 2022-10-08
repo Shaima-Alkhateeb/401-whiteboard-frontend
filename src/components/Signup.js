@@ -1,30 +1,15 @@
-import axios from "axios";
-import React from "react";
+
 import { Link } from "react-router-dom";
+import React, { useContext } from "react";
+
+import { authContext } from "../Context/AuthContext";
 
 
 export default function Signup() {
 
-    const handleSignup = async (e) => {
-        e.preventDefault();
-        if(e.target.password.value !== e.target.confirmPassword.value) {
-            alert("Passwords do not match");
-            return;
-        } 
-        const data = {
-            username: e.target.username.value,
-            email: e.target.email.value,
-            password: e.target.password.value,
-            role: e.target.role.value
-        }
-        
-        await axios.post(`${process.env.REACT_APP_URL}/signup`, data).then(res => {
-            console.log(res);
-            alert("Thank you for signing up!, please Sing in"); 
+  const { handleSignup } = useContext(authContext);
 
-        }).catch(e => alert("email or username already exists"));
-        
-  }
+
 
   return (
     
