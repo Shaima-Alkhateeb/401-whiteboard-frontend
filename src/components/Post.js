@@ -15,10 +15,6 @@ function Post() {
   const { post, deletePost, deleteComment, getPost } = useContext(PostContext);
   const {role, user, capabilities} = useContext(authContext)
 
-
-
-
-
   useEffect(() => {
     console.log(role);
     console.log(capabilities);
@@ -39,10 +35,10 @@ function Post() {
                   <Card.Title>{value.title}</Card.Title>
                   <Card.Text>{value.description}</Card.Text>
                   
-                  {capabilities.includes('delete') && 
+                  {user.user.capabilities.includes('delete') && 
                   <Button onClick={() => deletePost(value._id)}>Delete</Button>}
 
-                  {capabilities.includes('update') &&
+                  {user.user.capabilities.includes('update') &&
                   <UpdatePost post={value} getPost={getPost} />
 
                   }
