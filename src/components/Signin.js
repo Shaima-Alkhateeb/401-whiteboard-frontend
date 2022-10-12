@@ -10,20 +10,20 @@ import  { authContext} from "../Context/AuthContext";
 export default function Signin() {
 
 
-  const { isAuth, handelLogout, handleSignin, checkToken, user, theuser} = useContext(authContext);
+  const {  handelLogout, handleSignin, user, theuser} = useContext(authContext);
 
-  useEffect(() => {
+  // useEffect(() => {
     // const token = cookies.load('token');
     // // console.log(token);
     // if(token) {
     //   // setisAuth(true)
     // }
-    checkToken();
-  }, [])
+    // checkToken();
+  // }, [])
 
   return (
     <>
-    <When condition={!isAuth}>
+    <When condition={!user.isAuth}>
     <div>
       <h2>Sign in</h2><br></br>
       <form action="" onSubmit={handleSignin}>
@@ -36,7 +36,7 @@ export default function Signin() {
     </div>
     </When>
 
-    <When condition={isAuth}>
+    <When condition={user.isAuth}>
       <br></br>
       {/* <h2>Hooray you are authorized </h2> */}
       {<h2>Hello{user.username} </h2>}
